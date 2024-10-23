@@ -6,38 +6,22 @@
 <h2 id="title">Test</h2>
 
 @Html.AntiForgeryToken()
-<!-- FAILS -->
-@*<script type="module">
-        var token = $('input[name="__RequestVerificationToken"]').val();
-        var response = await fetch("/home/testPost", {
-            method: "POST",
-            headers: { "XSRF-HEADER": token }
-        });
-        if (response.ok) {
-            var responseText = await response.text();
-            document.getElementById("title").innerHTML = "OK";
-        } else {
-            document.getElementById("title").innerHTML = `Request Failed: ${response.status}`
-        }
-    </script>*@
 
-<!-- WORKS, but geez?-->
+<div>
+    @ViewBag.Test
+</div>
+
 <script type="module">
-    var response = await fetch("/antiforgery/token", {
+    var response = await fetch("/antiforgery/tokenValue", {
         method: "GET"
     });
 
     if (response.ok) {
-        // https://developer.mozilla.org/docs/web/api/document/cookie
-        const xsrfToken = document.cookie
-            .split("; ")
-            .find(row => row.startsWith("XSRF-HEADER="))
-            .split("=")[1];
-
-        var token = $('input[name="__RequestVerificationToken"]').val();
+        var netCoreToken = JSON.parse(await response.text());        
+        var net48Token = $('input[name="__RequestVerificationToken"]').val();
         var response = await fetch("/home/testPost", {
             method: "POST",
-            headers: { "XSRF-HEADER": xsrfToken }
+            headers: { "XSRF-HEADER": netCoreToken, "__RequestVerificationToken": net48Token }
         });
         if (response.ok) {
             var responseText = await response.text();

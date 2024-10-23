@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace WebNet48.Controllers
@@ -27,8 +24,11 @@ namespace WebNet48.Controllers
             return View();
         }
 
-        public ActionResult Test()
+        public async Task<ActionResult> Test()
         {
+            SessionHelper sessionHelper = new SessionHelper(new RedisSessionManager(), System.Web.HttpContext.Current);
+            ViewBag.Test = await sessionHelper.GetAsync("Test");
+
             ViewBag.Message = "Your contact page.";
 
             return View();

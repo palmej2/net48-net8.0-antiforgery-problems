@@ -1,11 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebNet48Core;
 
 namespace WebNet48.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        
+
+
+        public async Task<ActionResult> Index()
         {
+            SessionHelper sessionHelper = new SessionHelper(new RedisSessionManager(), HttpContext);
+
+            await sessionHelper.SetAsync("LastVisit", DateTime.UtcNow.ToString());
+            await sessionHelper.SetAsync("Test", $"Last Executed on net8.0 at { DateTime.Now }");
+
+            ViewBag.Test = await sessionHelper.GetAsync("Test");
+
             return View();
         }
 
