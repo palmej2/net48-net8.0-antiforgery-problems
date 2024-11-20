@@ -67,6 +67,8 @@ app.MapPost("/oauth2/token", async (HttpContext context) =>
     }
 });
 
+
+
 app.UseMiddleware<CustomSessionMiddleware>();
 app.UseStaticFiles();
 app.UseRouting();
