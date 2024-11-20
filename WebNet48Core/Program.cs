@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
 using WebNet48Core;
 
@@ -15,6 +17,7 @@ builder.Configuration
 builder.Services.AddDataProtection()
     .SetApplicationName("YourAppName") // This should be consistent across all apps using the same keys
     .PersistKeysToFileSystem(new DirectoryInfo(@"C:\Custom")); // Ensure a consistent location for keys
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -37,6 +40,33 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Add the /token endpoint
+app.MapPost("/oauth2/token", async (HttpContext context) =>
+{
+    var form = await context.Request.ReadFormAsync();
+    var clientId = form["clientId"].ToString();
+    var clientSecret = form["secret"].ToString();
+
+    // Validate clientId and clientSecret
+    if (clientId != "" && clientSecret != "")
+    {
+        var identity = new ClaimsIdentity("OAuth");
+        identity.AddClaim(new Claim("FirstName", "John"));
+        identity.AddClaim(new Claim("LastName", "Doe"));
+        var principal = new ClaimsPrincipal(identity);
+        var properties = new AuthenticationProperties();
+
+        AuthenticationTicket authenticationTicket = new AuthenticationTicket(principal, properties, "OAuth");
+        var token = Convert.ToBase64String(TicketSerializer.Default.Serialize(authenticationTicket));
+
+        return Results.Ok(new { token = token });
+    }
+    else
+    {
+        return Results.Unauthorized();
+    }
+});
+
 app.UseMiddleware<CustomSessionMiddleware>();
 app.UseStaticFiles();
 app.UseRouting();
@@ -49,6 +79,8 @@ app.MapGet("antiforgery/tokenValue", (IAntiforgery forgeryService, HttpContext c
     var tokens = forgeryService.GetAndStoreTokens(context);
     return Results.Ok(tokens.RequestToken);
 });
+
+
 
 app.MapReverseProxy();
 

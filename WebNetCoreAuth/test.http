@@ -1,0 +1,15 @@
+
+### making request using previously set variable as a body
+GET http://localhost:88/api/foo
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkpvaG4gRG9lIiwiZW1haWwiOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiQ3VzdG9tQ2xhaW0iOiJDdXN0b21WYWx1ZSIsIm5iZiI6MTczMjA1MTczNSwiZXhwIjoxNzMyMDU1MzM1LCJpYXQiOjE3MzIwNTE3MzUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJhdWQiOiJBcGlVc2VycyJ9.oTlRjeeKUnIl2s-INQH-oMA3LrHtlRtq3X2FV-8kQ-w
+
+
+
+### making request using previously set variable as a body
+POST http://localhost:88/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=BorrowerCenter
+&client_secret=gSrcgeZCfUecEIB4+o4vz0JzDGFG9zeOGRjvDixnwWtSJK4SU/ROCmgkjWJ4x4gH/tMYiHrImZD6bTQFs6gn8SyB4po+W7UViiDVQILwwypVIGtTU31EKyFVWjT1jlNZ0buK7UQKG0z6n+nNpFC+YVUOeuDB05u/iDjXCJXtLJ/SZQ39Py7taxyL0DM26fTrspmhdI398V1aZPaGgqbTiB4oLg3cSZKkgM0Abadp08etcRpG4iFs2f4LMnyjkDuLCOvuNgyKMyMcWnTRQEK8xeivXjDvAAd5+EeeGvOVbANs+/X/hAkAZNMb4xa834F5kD/Lc8iArAymcsZGSPCX2w==
+&grant_type=password
+&scope=api
