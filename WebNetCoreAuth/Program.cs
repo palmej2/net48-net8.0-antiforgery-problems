@@ -121,7 +121,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapPost("/token", async (TokenService tokenService, HttpContext httpContext) =>
+app.MapPost("/token", (TokenService tokenService, HttpContext httpContext) =>
 {
     var clientId = httpContext.Request.Form["client_id"];
     var secret = httpContext.Request.Form["secret"];
@@ -140,7 +140,7 @@ app.MapPost("/token", async (TokenService tokenService, HttpContext httpContext)
     return Results.Ok(new { token });
 });
 
-app.MapPost("/token1", async (HttpContext context) =>
+app.MapPost("/token1", (HttpContext context) =>
 {
     var clientId = context.Request.Form["client_id"];
     var clientSecret = context.Request.Form["secret"];
