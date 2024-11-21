@@ -82,10 +82,6 @@ builder.Services.AddAuthentication(options =>
         
         options.Events = new OAuthEvents
         {
-            OnTokenValidated = async context =>
-            {
-
-            },
             OnCreatingTicket = async context =>
             {
                 var accessToken = context.AccessToken;
